@@ -8,8 +8,15 @@ from scipy.signal import find_peaks
 import math
 from scipy import stats
 
+def getSqlArray(df):
+    
+    print(df)
+
+
 def getTemperatureData(Analysis_Table_Name):
     df = DataFrame(db.get_all_frame_data(Analysis_Table_Name))
+    print("df here before columns " + Analysis_Table_Name)
+    getSqlArray(df)
     df.drop(df.columns[[2,3,5,6]], axis = 1, inplace = True)
     df.columns = ["Time", "Pan", "Food"]
     df["Food"] = df["Food"].apply(lambda x: x.replace("[", ""))

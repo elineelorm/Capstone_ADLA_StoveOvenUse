@@ -96,7 +96,8 @@ class classifierGUI:
         self.plot1.clear()
         
         self.plot1.plot(x, y, marker='x')  
-        print(x)
+        print(x) #print Time
+        print(y) #new print temp
         self.plot1.set_title("Graph of Surface Temperature Recorded over Time")
         self.plot1.set_xlabel("Time (in seconds)")
         self.plot1.set_ylabel("Temperature (C)")

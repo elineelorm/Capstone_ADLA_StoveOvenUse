@@ -1,7 +1,9 @@
 import os
 from tkinter import Tk, Button, Frame, Label, StringVar, filedialog, DISABLED, NORMAL
-from database import add_video_from_filename
+from database import add_video_from_filename, get_frame_data_array, durationWith_opencv
 from threading import Thread
+# from pymediainfo import MediaInfo
+import moviepy.editor
 
 class DatabaseClient(Frame):
     ''' This class launches a GUI that allows users to easily add one or multiple thermal videos
@@ -58,6 +60,7 @@ class DatabaseClient(Frame):
         Returns:
             None
         '''
+
         self.enableGUI()
 
     def enableGUI(self):
@@ -123,9 +126,22 @@ class TaskAddVideos(Thread):
             add_video_from_filename(filename)
         self.caller.update()
             
+def with_ffprobe(filename):
+    result = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
+                             "format=duration", "-of",
+                             "default=noprint_wrappers=1:nokey=1", filename],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT)
+    return float(result.stdout)
 
+
+    
 
 def main():
+    #new before root
+    # frameData = get_frame_data_array('Three_Mushrooms_Analysis_Table_1')
+    # result = classifyStaticVideo(frameData) new commented out
+    # print(frameData)
     root = Tk()
     root.title('Database Client')
     root.geometry('500x200')
@@ -133,4 +149,15 @@ def main():
     client.mainloop()
 
 if __name__ == '__main__':
+    # filename = "C:/Users/jaime/Desktop/SYSC4907A/Code/Capstone_ADLA_StoveOvenUse/ThermalSoftware/Test Data/2023.01.18-23.22.21 [Boil D4].mp4"
+    # print(filename)
+    # print("Duration: ")
+    # clip = VideoFileClip(filename)
+    # print( clip.duration )
+    # print(with_ffprobe(filename))
+    # print(durationWith_opencv(filename))
+    
+    # clip_info = MediaInfo.parse(filename)
+    # duration_ms = clip_info.tracks[0].duration
+    # print(duration_ms)
     main()

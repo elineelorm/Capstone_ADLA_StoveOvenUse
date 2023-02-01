@@ -2,7 +2,7 @@ import pygetwindow as gw
 import numpy as np
 import cv2
 import time
-from mss import mss
+from mss import mss #mss is a python library for screenshots
 from PIL import Image
 
 # Maximize and bring SeekOFix window to the foreground
@@ -23,7 +23,7 @@ monitor = {'left': X_OFFSET, 'top': Y_OFFSET, 'width': VIDEO_WIDTH, 'height': VI
 resolution = (VIDEO_WIDTH, VIDEO_HEIGHT)
 
 # MP4 codec
-codec = cv2.VideoWriter_fourcc(*'MP4V')
+codec = cv2.VideoWriter_fourcc(*'mp4v')
 
 # Timestamped filename
 timestamp = time.strftime('%Y.%m.%d-%H.%M.%S')

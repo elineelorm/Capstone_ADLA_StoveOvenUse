@@ -327,7 +327,31 @@ def get_all_frame_data(analysisTableName):
     conn.close()
     return frameData
 
+#2022 new method for getting thermal data in an array
+def get_frame_data_array(analysisTableName):
+    ''' Get all FrameData records from an analysis table.
+    
+    Args:
+        analysisTableName (str): The analysis table containing the FrameData
+    
+    Returns:
+        list: All FrameData in an analysis table
+    '''
+    conn = sqlite3.connect(DATABASE)
+    c = conn.cursor()
+    c.execute('SELECT * FROM {}'.format(analysisTableName))
+    frameData = c.fetchone()
+    c.close()
+    conn.close()
+    return frameData
 
+def durationWith_opencv(filename):
+    import cv2
+    video = cv2.VideoCapture(filename)
+
+    duration = video.get(cv2.CAP_PROP_POS_MSEC)
+
+    return duration
 
 def add_video_from_filename(filename):
     ''' Analyzes a video given its filename and stores its analytical data
@@ -341,6 +365,12 @@ def add_video_from_filename(filename):
     Returns:
         None
     '''
+    #new to check duration
+    print(filename)
+    print("Duration: ")
+    print(durationWith_opencv(filename))
+    
+
     # Replace '\\' with '/' to handle incoming filenames
     filename = filename.replace('\\', '/')
 
@@ -359,8 +389,8 @@ def add_video_from_filename(filename):
     # Set stove ID to 1 since we only have one stove
     stoveId = 1
 
-    # Get frame data from video
-    frameData = processVideo(filename, 10)
+    # Get frame data from video(new change in 2023)=> sampleRate from 10 to 40 to (Dynamic)60 to 40 
+    frameData = processVideo(filename, 40)
 
     # Classify frame data at each elapsed time interval
     frameByFrameClassifications = classifyStaticVideo(frameData)
@@ -384,4 +414,8 @@ def add_video_from_filename(filename):
 if __name__ == '__main__':
     frameData = get_all_frame_data('Three_Mushrooms_Analysis_Table_1')
     result = classifyStaticVideo(frameData)
-    print(result)
+    print(frameData)
+    # filename = "C:/Users/jaime/Desktop/SYSC4907A/Code/Capstone_ADLA_StoveOvenUse/ThermalSoftware/Test Data/2023.01.18-23.22.21 [Boil D4].mp4"
+    # print(filename)
+    # print("Duration: ")
+    # print(durationWith_opencv(filename))
