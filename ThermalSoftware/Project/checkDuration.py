@@ -1,17 +1,18 @@
 from moviepy.editor import VideoFileClip
 
 #To get frame rate of the 20 equally spaced frame 
-def getFrameRate():
-    #Need changes for it to pass in a path from dataClient.py
-    filename = "C:/Users/jaime/Desktop/SYSC4907A/Code/Capstone_ADLA_StoveOvenUse/ThermalSoftware/Test Data/2023.01.09-19.27.32 [Boiling water 20Frames].mp4"
+def getFrameRate(filename):
+    #Pass in a path from dataClient.py
+    print("Enter getFrameRate()")
     print(filename)
+
     video = VideoFileClip(filename)
 
     print(str(video.duration/60) + " mins") #in mins
-    print("Video length: " + str(video.duration))
+    print("Video length: " + str(video.duration) + " s")
 
     frameRate = video.duration//20 #round up
-    print("Video frame rate: " + str(frameRate))
+    print("Video frame rate: " + str(frameRate) + " seconds/frame in SQL")
 
     return frameRate
 

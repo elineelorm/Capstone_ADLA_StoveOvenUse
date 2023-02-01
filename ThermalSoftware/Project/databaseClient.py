@@ -1,6 +1,6 @@
 import os
 from tkinter import Tk, Button, Frame, Label, StringVar, filedialog, DISABLED, NORMAL
-from database import add_video_from_filename, get_frame_data_array, durationWith_opencv
+from database import add_video_from_filename, get_frame_data_array
 from threading import Thread
 
 class DatabaseClient(Frame):

@@ -251,9 +251,11 @@ def thermalImagingProcess(frames, rate):
                 #     entries.append((i*10, pan[0], pan[1], len(food), str(foodTemp),str(foodSize)))
                 # else:
                 #     entries.append((i*10, pan[0], pan[1], 0, "", "")) 
-                    entries.append(((i-1)*rate, pan[0], pan[1], len(food), str(foodTemp),str(foodSize)))
+                    entries.append((i*rate, pan[0], pan[1], len(food), str(foodTemp),str(foodSize)))
                 else:
-                    entries.append(((i-1)*rate, pan[0], pan[1], 0, "", ""))    # need more trial to determine to use i or (i-1)
+                    entries.append((i*rate, pan[0], pan[1], 0, "", ""))    
+                    # need more trial to determine to use i or (i-1) or (i-2) so time_elapsed will start at 0 in SQLite
+                    # Check: what it depends on if it detects a pan or when i become 1 before the below "i += 1"
                 
         i += 1
     return entries

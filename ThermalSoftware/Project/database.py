@@ -346,14 +346,6 @@ def get_frame_data_array(analysisTableName):
     conn.close()
     return frameData
 
-def durationWith_opencv(filename):
-    import cv2
-    video = cv2.VideoCapture(filename)
-
-    duration = video.get(cv2.CAP_PROP_POS_MSEC)
-
-    return duration
-
 def add_video_from_filename(filename):
     ''' Analyzes a video given its filename and stores its analytical data
     (FrameData records) into the database.
@@ -368,8 +360,8 @@ def add_video_from_filename(filename):
     '''
     #new to check duration
     print(filename)
-    print("Duration: ")
-    print(durationWith_opencv(filename))
+    print("Enter database.py")
+    rate = getFrameRate(filename)
     
 
     # Replace '\\' with '/' to handle incoming filenames
@@ -390,7 +382,7 @@ def add_video_from_filename(filename):
     # Set stove ID to 1 since we only have one stove
     stoveId = 1
 
-    rate = getFrameRate()
+    
     print("Frame rate in database: " + str(rate))
     # Get frame data from video(new change in 2023)=> sampleRate from 10 to 40 to (Dynamic)60 to 40 to attempt at equally spaced 20 frames
     frameData = processVideo(filename, rate)
