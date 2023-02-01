@@ -7,6 +7,7 @@ from Models.frame_data import FrameData
 from thermalImageProcessing import processVideo
 from classifier import classifyStaticVideo
 from classificationAnalyzer import classifyTable
+from checkDuration import getFrameRate
 
 DATABASE = 'Project/thermal_cooking.db'
 
@@ -389,8 +390,10 @@ def add_video_from_filename(filename):
     # Set stove ID to 1 since we only have one stove
     stoveId = 1
 
-    # Get frame data from video(new change in 2023)=> sampleRate from 10 to 40 to (Dynamic)60 to 40 
-    frameData = processVideo(filename, 40)
+    rate = getFrameRate()
+    print("Frame rate in database: " + str(rate))
+    # Get frame data from video(new change in 2023)=> sampleRate from 10 to 40 to (Dynamic)60 to 40 to attempt at equally spaced 20 frames
+    frameData = processVideo(filename, rate)
 
     # Classify frame data at each elapsed time interval
     frameByFrameClassifications = classifyStaticVideo(frameData)
@@ -415,7 +418,4 @@ if __name__ == '__main__':
     frameData = get_all_frame_data('Three_Mushrooms_Analysis_Table_1')
     result = classifyStaticVideo(frameData)
     print(frameData)
-    # filename = "C:/Users/jaime/Desktop/SYSC4907A/Code/Capstone_ADLA_StoveOvenUse/ThermalSoftware/Test Data/2023.01.18-23.22.21 [Boil D4].mp4"
-    # print(filename)
-    # print("Duration: ")
-    # print(durationWith_opencv(filename))
+    getFrameRate()

@@ -2,8 +2,6 @@ import os
 from tkinter import Tk, Button, Frame, Label, StringVar, filedialog, DISABLED, NORMAL
 from database import add_video_from_filename, get_frame_data_array, durationWith_opencv
 from threading import Thread
-# from pymediainfo import MediaInfo
-import moviepy.editor
 
 class DatabaseClient(Frame):
     ''' This class launches a GUI that allows users to easily add one or multiple thermal videos
@@ -149,15 +147,5 @@ def main():
     client.mainloop()
 
 if __name__ == '__main__':
-    # filename = "C:/Users/jaime/Desktop/SYSC4907A/Code/Capstone_ADLA_StoveOvenUse/ThermalSoftware/Test Data/2023.01.18-23.22.21 [Boil D4].mp4"
-    # print(filename)
-    # print("Duration: ")
-    # clip = VideoFileClip(filename)
-    # print( clip.duration )
-    # print(with_ffprobe(filename))
-    # print(durationWith_opencv(filename))
-    
-    # clip_info = MediaInfo.parse(filename)
-    # duration_ms = clip_info.tracks[0].duration
-    # print(duration_ms)
+    # getFrameRate()
     main()

@@ -168,7 +168,7 @@ def getAverageTemperature_pnts(pnts, image):
 
     return sum/len(pnts)
 
-def thermalImagingProcess(frames):
+def thermalImagingProcess(frames, rate):
     #Iterate over every sampled frame in video
     backgroundTemp = 24
     #background = resizeImage(frames[0], 25)
@@ -228,8 +228,15 @@ def thermalImagingProcess(frames):
                     #             temperatureList[0].remove(e)
                 print("Frame: "+str(i)+" - After Temperature List. ElapsedTime: " + str(time.time() - startTime))    
                 pts = list(filter(lambda x: x[1] > 50, pts))
-                pan = max(pts,key=lambda item:item[1])
-                    
+                # pan = max(pts,key=lambda item:item[1])
+                
+                #new fix when pan have nothing
+                try:
+                    pan = max(pts,key=lambda item:item[1])
+                except ValueError:
+                    pan = [0, 0]
+                #fix end
+
                 if(len(pts) > 1):
                     food = pts.copy()
                     food.remove(pan)
@@ -239,9 +246,15 @@ def thermalImagingProcess(frames):
                         pan = (panAvg, pan[1] - f[1])
                     foodTemp = [x[0] for x in food]
                     foodSize = [x[1] for x in food]
-                    entries.append((i*10, pan[0], pan[1], len(food), str(foodTemp),str(foodSize)))
+
+                    #Need new changes to not do i*10 but i * rate of the 20 equally spaced frames
+                #     entries.append((i*10, pan[0], pan[1], len(food), str(foodTemp),str(foodSize)))
+                # else:
+                #     entries.append((i*10, pan[0], pan[1], 0, "", "")) 
+                    entries.append(((i-1)*rate, pan[0], pan[1], len(food), str(foodTemp),str(foodSize)))
                 else:
-                    entries.append((i*10, pan[0], pan[1], 0, "", ""))
+                    entries.append(((i-1)*rate, pan[0], pan[1], 0, "", ""))    # need more trial to determine to use i or (i-1)
+                
         i += 1
     return entries
 
@@ -251,5 +264,5 @@ and will add the data derived for each frame to the table
 """
 def processVideo(video, sampleRate):
     frames = sampleVideo(video, sampleRate)
-    entries = thermalImagingProcess(frames)
+    entries = thermalImagingProcess(frames, sampleRate)
     return entries
