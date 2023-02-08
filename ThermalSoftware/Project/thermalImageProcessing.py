@@ -230,7 +230,7 @@ def thermalImagingProcess(frames, rate):
                 pts = list(filter(lambda x: x[1] > 50, pts))
                 # pan = max(pts,key=lambda item:item[1])
                 
-                #new fix when pan have nothing
+                #new fix for ValueError:max() arg is an empty sequence when pan have nothing
                 try:
                     pan = max(pts,key=lambda item:item[1])
                 except ValueError:
