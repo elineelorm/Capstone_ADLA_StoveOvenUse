@@ -11,7 +11,7 @@ def getFrameRate(filename):
     print(str(video.duration/60) + " mins") #in mins
     print("Video length: " + str(video.duration) + " s")
 
-    frameRate = video.duration//20 #round up
+    frameRate = video.duration//19 #round up Change from 20 to 19 (19 splits 20 equally space)
     print("Video frame rate: " + str(frameRate) + " seconds/frame in SQL")
 
     return frameRate
