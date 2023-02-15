@@ -100,14 +100,23 @@ def getAverageImageTemperature(image):
 
     return sum / (height*width)
 
+"""
+2023 comment: the function returns the area of where the pan is,
+              in An array of coordinates (x, y)
+"""
 def contourMask(image):
     pts = np.where(image != 0)
     #print(len(pts[0]))
     coordinates = []
     for i in range(len(pts[0])):
         coordinates.append((pts[0][i], pts[1][i]))
+    # print("Contour Mask")
+    # print(coordinates)
     return coordinates
 
+"""
+2023 comment: the function was used in thermalImagingProcess, trying to find the outline of the pan in the image
+"""
 def findPan(frame, image):
     original = np.copy(frame)
     image_cropped = cropImage(np.copy(image), 2)
@@ -131,6 +140,8 @@ def findPan(frame, image):
         # ellipse
         if c[1].shape[0] > 5:
             cv2.ellipse(blackFrame, minEllipse, color, -1)
+    # print("Black Frame")
+    # print(blackFrame)
     return blackFrame
 
 def open_Morph(image):
@@ -160,12 +171,17 @@ def getPercentageOfMode(image):
     sum = np.sum(counts)
     return (np.amax(counts)/sum)
 
+"""
+2023 comment: the function returns the average of temperature using pnts,
+              in float, used in thermalImagingProcess for avgPanTemp (might be including the food temp)
+"""
 def getAverageTemperature_pnts(pnts, image):
     sum = 0
     for p in pnts:
         temp, brightness = find_nearest(image[p[0], p[1]])
         sum += int(temp)
-
+    print("getAvgPanTemp")
+    print(sum/len(pnts))
     return sum/len(pnts)
 
 def thermalImagingProcess(frames, rate):
@@ -177,22 +193,29 @@ def thermalImagingProcess(frames, rate):
     startTime = time.time()
     i=0
     for frame in frames:
+        #foreground is just the original frame to grey
         foreground = cv2.cvtColor(frame.copy(), cv2.COLOR_BGR2GRAY)
 
+        # 2021/2022 code but they did not end up using it
         # forground = resizeImage(frame, 50)
 
-        #Convert to grayscale and blur
+        #Convert to grayscale and blur, image to grey to compare easier 
+        #than actual thermal screenshot's colour
         print("Frame: "+str(i)+" - Blurring Image. ElapsedTime: " + str(time.time() - startTime))
         blur= cv2.medianBlur(np.copy(foreground),5)
         print("Frame: "+str(i)+" - Thresholding Image. ElapsedTime: " + str(time.time() - startTime))
         thresh_gray = cv2.adaptiveThreshold(blur, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 127, 1)
         print("Frame: "+str(i)+" - Morphing Image. ElapsedTime: " + str(time.time() - startTime))
         open_morph = open_Morph(thresh_gray)
+        #Try to identify pan
         print("Frame: "+str(i)+" - FindPan. ElapsedTime: " + str(time.time() - startTime))
         ellipse = cv2.cvtColor(findPan(foreground, open_morph), cv2.COLOR_BGR2GRAY)
+        # Mask the outline of the pan
         print("Frame: "+str(i)+" - BitwiseMask Image. ElapsedTime: " + str(time.time() - startTime))
         ellipseMask = cv2.bitwise_and(foreground, ellipse)
         print("Frame: "+str(i)+" - Column Stack Image. ElapsedTime: " + str(time.time() - startTime))
+        
+        #Now take the pan shape and analyze 
         if not len(np.column_stack(np.where(ellipse != 0))) == 0:
             #showImage(cv2.cvtColor(ellipseMask, cv2.COLOR_BGR2RGB), "Ellipse")
             print("Frame: "+str(i)+" - ContourMask. ElapsedTime: " + str(time.time() - startTime))
@@ -261,6 +284,8 @@ def thermalImagingProcess(frames, rate):
                     # Check: what it depends on if it detects a pan or when i become 1 before the below "i += 1"
                 
         i += 1
+        if i >= 20:
+            break
     return entries
 
 """
