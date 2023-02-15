@@ -168,7 +168,7 @@ def getAverageTemperature_pnts(pnts, image):
 
     return sum/len(pnts)
 
-def thermalImagingProcess(frames, rate):
+def thermalImagingProcess(frames):
     #Iterate over every sampled frame in video
     backgroundTemp = 24
     #background = resizeImage(frames[0], 25)
@@ -179,6 +179,7 @@ def thermalImagingProcess(frames, rate):
     for frame in frames:
         foreground = cv2.cvtColor(frame.copy(), cv2.COLOR_BGR2GRAY)
 
+        #the below line is not being used from the 2021/2022 team
         forground = resizeImage(frame, 50)
 
         #Convert to grayscale and blur
@@ -228,15 +229,8 @@ def thermalImagingProcess(frames, rate):
                     #             temperatureList[0].remove(e)
                 print("Frame: "+str(i)+" - After Temperature List. ElapsedTime: " + str(time.time() - startTime))    
                 pts = list(filter(lambda x: x[1] > 50, pts))
-                # pan = max(pts,key=lambda item:item[1])
-                
-                #new fix for ValueError:max() arg is an empty sequence when pan have nothing
-                try:
-                    pan = max(pts,key=lambda item:item[1])
-                except ValueError:
-                    pan = [0, 0]
-                #fix end
-
+                pan = max(pts,key=lambda item:item[1])
+                    
                 if(len(pts) > 1):
                     food = pts.copy()
                     food.remove(pan)
@@ -246,17 +240,9 @@ def thermalImagingProcess(frames, rate):
                         pan = (panAvg, pan[1] - f[1])
                     foodTemp = [x[0] for x in food]
                     foodSize = [x[1] for x in food]
-
-                    #Need new changes to not do i*10 but i * rate of the 20 equally spaced frames
-                #     entries.append((i*10, pan[0], pan[1], len(food), str(foodTemp),str(foodSize)))
-                # else:
-                #     entries.append((i*10, pan[0], pan[1], 0, "", "")) 
-                    entries.append((i*rate, pan[0], pan[1], len(food), str(foodTemp),str(foodSize)))
+                    entries.append((i*10, pan[0], pan[1], len(food), str(foodTemp),str(foodSize)))
                 else:
-                    entries.append((i*rate, pan[0], pan[1], 0, "", ""))    
-                    # need more trial to determine to use i or (i-1) or (i-2) so time_elapsed will start at 0 in SQLite
-                    # Check: what it depends on if it detects a pan or when i become 1 before the below "i += 1"
-                
+                    entries.append((i*10, pan[0], pan[1], 0, "", ""))
         i += 1
     return entries
 
@@ -266,5 +252,5 @@ and will add the data derived for each frame to the table
 """
 def processVideo(video, sampleRate):
     frames = sampleVideo(video, sampleRate)
-    entries = thermalImagingProcess(frames, sampleRate)
+    entries = thermalImagingProcess(frames)
     return entries

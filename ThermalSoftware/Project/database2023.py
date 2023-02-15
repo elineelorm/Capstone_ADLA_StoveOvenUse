@@ -4,8 +4,8 @@ from fnmatch import fnmatch
 from sqlite3 import IntegrityError
 from Models.video import Video
 from Models.frame_data import FrameData
-from thermalImageProcessing import processVideo
-from classifier import classifyStaticVideo
+from thermalImageProcessing2023 import processVideo
+from classifier2023 import classifyStaticVideo
 from classificationAnalyzer import classifyTable
 from checkDuration import getFrameRate
 
@@ -400,8 +400,9 @@ def add_video_from_filename(filename):
 
     insert_many_frame_data(frameDataObjs, analysisTableName)
 
-    # Add a record to the videos master table
-    overallClassification = classifyTable(analysisTableName)
+    # Add a record to the videos master table (Hide to test 2023)
+    # overallClassification = classifyTable(analysisTableName)
+    overallClassification = "Trial 2023"
     video = Video(type, subtype, filename, analysisTableName, overallClassification, stoveId)
     insert_video(video)
 
