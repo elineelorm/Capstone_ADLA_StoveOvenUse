@@ -6,6 +6,7 @@ import sys
 from matplotlib import pyplot as plt
 import time
 import math
+from statistics import mean
 
 tempRange = np.load('Project/brightness2Temperature.npy')
 
@@ -227,7 +228,7 @@ def thermalImagingProcess(frames, rate):
                     #         if e in temperatureList[0]:
                     #             temperatureList[0].remove(e)
                 print("Frame: "+str(i)+" - After Temperature List. ElapsedTime: " + str(time.time() - startTime))    
-                pts = list(filter(lambda x: x[1] > 50, pts))
+                pts = list(filter(lambda x: x[1] > 50, pts)) 
                 # pan = max(pts,key=lambda item:item[1])
                 
                 #new fix for ValueError:max() arg is an empty sequence when pan have nothing
@@ -253,7 +254,8 @@ def thermalImagingProcess(frames, rate):
                 #     entries.append((i*10, pan[0], pan[1], 0, "", "")) 
                 #Testing set all to 0 other than time
                     # entries.append((i*rate, pan[0], pan[1], len(food), str(foodTemp),str(foodSize)))
-                    entries.append((i*rate, 0, 0, 0, 0,0,0))
+    
+                    entries.append((i*rate, pan[0], str(max(temperatureList)), str(min(temperatureList)), str(mean(foodTemp)), str(max(foodTemp)), str(min(foodTemp))))
                 else:
                     # entries.append((i*rate, pan[0], pan[1], 0, "", "",""))    
                     entries.append((i*rate, 0, 0, 0, 0, 0,0))   
