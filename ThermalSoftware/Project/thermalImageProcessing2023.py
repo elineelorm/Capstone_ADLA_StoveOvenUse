@@ -255,7 +255,7 @@ def thermalImagingProcess(frames, rate):
                 #Testing set all to 0 other than time
                     # entries.append((i*rate, pan[0], pan[1], len(food), str(foodTemp),str(foodSize)))
     
-                    entries.append((i*rate, pan[0], str(max(temperatureList)), str(min(temperatureList)), str(mean(foodTemp)), str(max(foodTemp)), str(min(foodTemp))))
+                    entries.append((i*rate, pan[0], str(max(max(temperatureList))), str(min(min(temperatureList))), str(mean(foodTemp)), str(max(foodTemp)), str(min(foodTemp))))
                 else:
                     # entries.append((i*rate, pan[0], pan[1], 0, "", "",""))    
                     entries.append((i*rate, 0, 0, 0, 0, 0,0))   
