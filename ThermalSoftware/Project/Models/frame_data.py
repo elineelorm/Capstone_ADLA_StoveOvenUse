@@ -5,6 +5,7 @@ class FrameData:
     ''' An instance of FrameData represents a frame that is sampled from a thermal video.
     FrameData records are stored in an analysis table pertaining to the specific thermal video file.
 
+    //Change this!
     Each instance of FrameData contains the following fields:
         timeElapsed (INTEGER) - The elapsed time (in seconds) since the beginning of the time the frame was sampled (primary key)
         panTemp (REAL) - The average temperature of the pan (in Celsius)
@@ -14,42 +15,42 @@ class FrameData:
         foodArea (TEXT) - The string representation of an array containing the areas (in pixels) of each identified food
         classification (TEXT) - The classification of the frame specified by the classifier
     '''
-    def __init__(self, timeElapsed, panTemp, panArea, numFood, foodTemp, foodArea, classification):
-        self._timeElapsed = timeElapsed
-        self._panTemp = panTemp
-        self._panArea = panArea
-        self._numFood = numFood
-        self._foodTemp = foodTemp
-        self._foodArea = foodArea
-        self._classification = classification
+    def __init__(self, time_elapsed, avg_pan_temp, highest_pan_temp ,lowest_pan_temp, avg_food_temp, highest_food_temp, lowest_food_temp):
+        self._timeElapsed = time_elapsed
+        self._avgPanTemp = avg_pan_temp
+        self._higPanTemp = highest_pan_temp
+        self._lowPanTemp = lowest_pan_temp
+        self._avgFoodTemp = avg_food_temp
+        self._higFoodTemp = highest_food_temp
+        self._lowFoodTemp = lowest_food_temp
 
     @property
     def timeElapsed(self):
         return self._timeElapsed
 
     @property
-    def panTemp(self):
-        return self._panTemp
+    def avgPanTemp(self):
+        return self._avgPanTemp
 
     @property
-    def panArea(self):
-        return self._panArea
+    def higPanTemp(self):
+        return self._higPanTemp
 
     @property
-    def numFood(self):
-        return self._numFood
+    def lowPanTemp(self):
+        return self._lowPanTemp
 
     @property
-    def foodTemp(self):
-        return self._foodTemp
+    def avgFoodTemp(self):
+        return self._avgFoodTemp
 
     @property
-    def foodArea(self):
-        return self._foodArea
+    def higFoodTemp(self):
+        return self._higFoodTemp
 
     @property
-    def classification(self):
-        return self._classification
+    def lowFoodTemp(self):
+        return self._lowFoodTemp
 
     def get_as_record(self):
-        return (self.timeElapsed, self.panTemp, self.panArea, self.numFood, self.foodTemp, self.foodArea, self.classification)
+        return (self.timeElapsed, self.avgPanTemp, self.higPanTemp, self.lowPanTemp, self.avgFoodTemp, self.higFoodTemp, self.lowFoodTemp)

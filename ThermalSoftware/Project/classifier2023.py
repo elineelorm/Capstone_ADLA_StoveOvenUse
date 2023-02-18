@@ -6,11 +6,11 @@ def classifyStaticVideo(frameData):
     classifications = {}
     prevPanTemp = None
 
-    print("Inside classifyStatic")
-    print(frameData)
+    # print("Inside classifyStatic")
+    # print(frameData)
     for frame in frameData:
-        print("Inside classifyStatic loop")
-        print(frame)
+        # print("Inside classifyStatic loop")
+        # print(frame)
         timeElapsed, panTemp, panArea, numFood, foodTemp, foodArea, lowFoodTemp = frame
 
         # Open element or empty pan
