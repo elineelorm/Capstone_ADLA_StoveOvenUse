@@ -4,6 +4,7 @@ from fnmatch import fnmatch
 from sqlite3 import IntegrityError
 from Models.video import Video
 from Models.frame_data import FrameData
+from Models.testdata import TestData
 from thermalImageProcessing2023 import processVideo
 from classifier2023 import classifyStaticVideo
 from classificationAnalyzer import classifyTable
@@ -347,6 +348,202 @@ def get_frame_data_array(analysisTableName):
     conn.close()
     return frameData
 
+#2023 new method for saving frame data to a new table to be transfer to csv
+def create_testdata_table():
+    ''' Create the master testdata table.
+    The master testdata table stores high-level information about thermal videos.
+    This inlcudes everything that goes into the csv for machine learning purpose.
+    
+    Args:
+        None
+    
+    Returns:
+        None
+    '''
+    conn = sqlite3.connect(DATABASE)
+    with conn:
+        c = conn.cursor()
+        # Check if the testdata table already exists
+        c.execute("SELECT COUNT(name) FROM sqlite_master WHERE type='table' AND name='testdata'")
+        if c.fetchone()[0] == 0:
+            c.execute('''CREATE TABLE testdata (
+                            state INTEGER,
+                            type INTEGER,
+                            safety INTEGER,
+                            time_elapsed_1 INTEGER,
+                            avg_pan_temp_1 REAL,
+                            highest_pan_temp_1 REAL,
+                            lowest_pan_temp_1 REAL,
+                            avg_food_temp_1 REAL,
+                            highest_food_temp_1 REAL,
+                            lowest_food_temp_1 REAL,
+                            time_elapsed_2 INTEGER,
+                            avg_pan_temp_2 REAL,
+                            highest_pan_temp_2 REAL,
+                            lowest_pan_temp_2 REAL,
+                            avg_food_temp_2 REAL,
+                            highest_food_temp_2 REAL,
+                            lowest_food_temp_2 REAL,
+                            time_elapsed_3 INTEGER,
+                            avg_pan_temp_3 REAL,
+                            highest_pan_temp_3 REAL,
+                            lowest_pan_temp_3 REAL,
+                            avg_food_temp_3 REAL,
+                            highest_food_temp_3 REAL,
+                            lowest_food_temp_3 REAL,
+                            time_elapsed_4 INTEGER,
+                            avg_pan_temp_4 REAL,
+                            highest_pan_temp_4 REAL,
+                            lowest_pan_temp_4 REAL,
+                            avg_food_temp_4 REAL,
+                            highest_food_temp_4 REAL,
+                            lowest_food_temp_4 REAL,
+                            time_elapsed_5 INTEGER,
+                            avg_pan_temp_5 REAL,
+                            highest_pan_temp_5 REAL,
+                            lowest_pan_temp_5 REAL,
+                            avg_food_temp_5 REAL,
+                            highest_food_temp_5 REAL,
+                            lowest_food_temp_5 REAL,
+                            time_elapsed_6 INTEGER,
+                            avg_pan_temp_6 REAL,
+                            highest_pan_temp_6 REAL,
+                            lowest_pan_temp_6 REAL,
+                            avg_food_temp_6 REAL,
+                            highest_food_temp_6 REAL,
+                            lowest_food_temp_6 REAL,
+                            time_elapsed_7 INTEGER,
+                            avg_pan_temp_7 REAL,
+                            highest_pan_temp_7 REAL,
+                            lowest_pan_temp_7 REAL,
+                            avg_food_temp_7 REAL,
+                            highest_food_temp_7 REAL,
+                            lowest_food_temp_7 REAL,
+                            time_elapsed_8 INTEGER,
+                            avg_pan_temp_8 REAL,
+                            highest_pan_temp_8 REAL,
+                            lowest_pan_temp_8 REAL,
+                            avg_food_temp_8 REAL,
+                            highest_food_temp_8 REAL,
+                            lowest_food_temp_8 REAL,
+                            time_elapsed_9 INTEGER,
+                            avg_pan_temp_9 REAL,
+                            highest_pan_temp_9 REAL,
+                            lowest_pan_temp_9 REAL,
+                            avg_food_temp_9 REAL,
+                            highest_food_temp_9 REAL,
+                            lowest_food_temp_9 REAL,
+                            time_elapsed_10 INTEGER,
+                            avg_pan_temp_10 REAL,
+                            highest_pan_temp_10 REAL,
+                            lowest_pan_temp_10 REAL,
+                            avg_food_temp_10 REAL,
+                            highest_food_temp_10 REAL,
+                            lowest_food_temp_10 REAL,
+                            time_elapsed_11 INTEGER,
+                            avg_pan_temp_11 REAL,
+                            highest_pan_temp_11 REAL,
+                            lowest_pan_temp_11 REAL,
+                            avg_food_temp_11 REAL,
+                            highest_food_temp_11 REAL,
+                            lowest_food_temp_11 REAL,
+                            time_elapsed_12 INTEGER,
+                            avg_pan_temp_12 REAL,
+                            highest_pan_temp_12 REAL,
+                            lowest_pan_temp_12 REAL,
+                            avg_food_temp_12 REAL,
+                            highest_food_temp_12 REAL,
+                            lowest_food_temp_12 REAL,
+                            time_elapsed_13 INTEGER,
+                            avg_pan_temp_13 REAL,
+                            highest_pan_temp_13 REAL,
+                            lowest_pan_temp_13 REAL,
+                            avg_food_temp_13 REAL,
+                            highest_food_temp_13 REAL,
+                            lowest_food_temp_13 REAL,
+                            time_elapsed_14 INTEGER,
+                            avg_pan_temp_14 REAL,
+                            highest_pan_temp_14 REAL,
+                            lowest_pan_temp_14 REAL,
+                            avg_food_temp_14 REAL,
+                            highest_food_temp_14 REAL,
+                            lowest_food_temp_14 REAL,
+                            time_elapsed_15 INTEGER,
+                            avg_pan_temp_15 REAL,
+                            highest_pan_temp_15 REAL,
+                            lowest_pan_temp_15 REAL,
+                            avg_food_temp_15 REAL,
+                            highest_food_temp_15 REAL,
+                            lowest_food_temp_15 REAL,
+                            time_elapsed_16 INTEGER,
+                            avg_pan_temp_16 REAL,
+                            highest_pan_temp_16 REAL,
+                            lowest_pan_temp_16 REAL,
+                            avg_food_temp_16 REAL,
+                            highest_food_temp_16 REAL,
+                            lowest_food_temp_16 REAL,
+                            time_elapsed_17 INTEGER,
+                            avg_pan_temp_17 REAL,
+                            highest_pan_temp_17 REAL,
+                            lowest_pan_temp_17 REAL,
+                            avg_food_temp_17 REAL,
+                            highest_food_temp_17 REAL,
+                            lowest_food_temp_17 REAL,
+                            time_elapsed_18 INTEGER,
+                            avg_pan_temp_18 REAL,
+                            highest_pan_temp_18 REAL,
+                            lowest_pan_temp_18 REAL,
+                            avg_food_temp_18 REAL,
+                            highest_food_temp_18 REAL,
+                            lowest_food_temp_18 REAL,
+                            time_elapsed_19 INTEGER,
+                            avg_pan_temp_19 REAL,
+                            highest_pan_temp_19 REAL,
+                            lowest_pan_temp_19 REAL,
+                            avg_food_temp_19 REAL,
+                            highest_food_temp_19 REAL,
+                            lowest_food_temp_19 REAL,
+                            time_elapsed_20 INTEGER,
+                            avg_pan_temp_20 REAL,
+                            highest_pan_temp_20 REAL,
+                            lowest_pan_temp_20 REAL,
+                            avg_food_temp_20 REAL,
+                            highest_food_temp_20 REAL,
+                            lowest_food_temp_20 REAL                    
+                        )''')
+        c.close()
+    conn.close()
+
+
+#2023 new method for saving frame data to a new table to be transfer to csv
+def insert_testdata(testdata):
+    ''' Insert a testdata into the master testdata table.
+    
+    Args:
+        testdata(testdata): The testdata to insert
+    
+    Returns:
+        None
+    '''
+    # Create testdata table if it does not already exist
+    create_testdata_table()
+
+    conn = sqlite3.connect(DATABASE)
+    with conn:
+        c = conn.cursor()
+        try:
+            # we have 143 question marks (?) 
+            c.execute('INSERT INTO testdata VALUES (?,?,?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?)',
+             testdata.get_as_record())
+            print('Successfully inserted testdata')
+        except AttributeError:
+            print('Testdata to be inserted is not of type TestData: {}'.format(type(TestData)))
+        except:
+            print('An unexpected error occurred when inserting a record into the testdata table')
+        finally:
+            c.close()
+    conn.close()
+
 def add_video_from_filename(filename):
     ''' Analyzes a video given its filename and stores its analytical data
     (FrameData records) into the database.
@@ -393,18 +590,36 @@ def add_video_from_filename(filename):
 
     # Add frame data to the analysis table
     frameDataObjs = []
+    #Add all frame data in an array for testdata table
+    setData = []
+
     for (timeElapsed, avgPanTemp, highPanTemp, lowPanTemp, avgFoodTemp, highFoodTemp, lowFoodTemp) in frameData:
         # frameByFrameClassification = frameByFrameClassifications[timeElapsed]
+        setData.append(timeElapsed)
+        setData.append(avgPanTemp)
+        setData.append(highPanTemp)
+        setData.append(lowPanTemp)
+        setData.append(avgFoodTemp)
+        setData.append(highFoodTemp)
+        setData.append(lowFoodTemp)
+
         newFrameData = FrameData(timeElapsed, avgPanTemp, highPanTemp, lowPanTemp, avgFoodTemp, highFoodTemp, lowFoodTemp)
         frameDataObjs.append(newFrameData)
+
+    #For testdata table, set state, type and safety to 0 and change it when we generate the csv
+    testdataArray = [0,0,0] + setData
 
     insert_many_frame_data(frameDataObjs, analysisTableName)
 
     # Add a record to the videos master table (Hide to test 2023)
     # overallClassification = classifyTable(analysisTableName)
-    overallClassification = "Trial 2023"
+    overallClassification = "Trial 2023"#set to "Trial 2023" as we don't want to hard code the classification
     video = Video(type, subtype, filename, analysisTableName, overallClassification, stoveId)
     insert_video(video)
+
+    #2023 For testdata table, * to unpack elements in testdataArray
+    testdata = TestData(*testdataArray)
+    insert_testdata(testdata)
 
 
 # Example
