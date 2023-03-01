@@ -556,9 +556,9 @@ def add_video_from_filename(filename):
     Returns:
         None
     '''
-    #new to check duration
-    print(filename)
-    print("Enter database.py")
+    # new to check duration
+    # print(filename)
+    # print("Enter database.py")
     rate = getFrameRate(filename)
     
 
@@ -585,8 +585,9 @@ def add_video_from_filename(filename):
     # Get frame data from video(new change in 2023)=> sampleRate from 10 to 40 to (Dynamic)60 to 40 to attempt at equally spaced 20 frames
     frameData = processVideo(filename, rate)
 
-    # Classify frame data at each elapsed time interval
-    frameByFrameClassifications = classifyStaticVideo(frameData)
+    # 2021/2022 method Classify frame data at each elapsed time interval
+    #Not used in 2022/23
+    # frameByFrameClassifications = classifyStaticVideo(frameData)
 
     # Add frame data to the analysis table
     frameDataObjs = []

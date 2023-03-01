@@ -3,7 +3,7 @@ from moviepy.editor import VideoFileClip
 #To get frame rate of the 20 equally spaced frame 
 def getFrameRate(filename):
     #Pass in a path from dataClient.py
-    print("Enter getFrameRate()")
+    # print("Enter getFrameRate()")
     print(filename)
 
     video = VideoFileClip(filename)

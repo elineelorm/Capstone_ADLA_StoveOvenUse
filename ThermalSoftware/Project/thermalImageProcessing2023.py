@@ -181,8 +181,8 @@ def getAverageTemperature_pnts(pnts, image):
     for p in pnts:
         temp, brightness = find_nearest(image[p[0], p[1]])
         sum += int(temp)
-    print("getAvgPanTemp")
-    print(sum/len(pnts))
+    # print("getAvgPanTemp")
+    # print(sum/len(pnts))
     return sum/len(pnts)
 
 def thermalImagingProcess(frames, rate):
@@ -215,6 +215,11 @@ def thermalImagingProcess(frames, rate):
         print("Frame: "+str(i)+" - BitwiseMask Image. ElapsedTime: " + str(time.time() - startTime))
         ellipseMask = cv2.bitwise_and(foreground, ellipse)
         print("Frame: "+str(i)+" - Column Stack Image. ElapsedTime: " + str(time.time() - startTime))
+        
+        # 2023 get Temp for missing pan (Avg temp of frame)
+        # Need to figure out how to get all framePnts of the frame
+        # panTemp = getAverageTemperature_pnts(framePnts, foreground)
+        missingPanTemp = 0
         
         #Now take the pan shape and analyze 
         if not len(np.column_stack(np.where(ellipse != 0))) == 0:
@@ -252,8 +257,9 @@ def thermalImagingProcess(frames, rate):
                     #             temperatureList[0].remove(e)
                 print("Frame: "+str(i)+" - After Temperature List. ElapsedTime: " + str(time.time() - startTime))    
                 pts = list(filter(lambda x: x[1] > 50, pts)) 
-                # pan = max(pts,key=lambda item:item[1])
                 
+                # pan = max(pts,key=lambda item:item[1])
+
                 #new fix for ValueError:max() arg is an empty sequence when pan have nothing
                 try:
                     pan = max(pts,key=lambda item:item[1])
@@ -279,12 +285,22 @@ def thermalImagingProcess(frames, rate):
                     # entries.append((i*rate, pan[0], pan[1], len(food), str(foodTemp),str(foodSize)))
     
                     entries.append((i*rate, pan[0], str(max(max(temperatureList))), str(min(min(temperatureList))), str(mean(foodTemp)), str(max(foodTemp)), str(min(foodTemp))))
+                
+                #Case Cannot find food but detected heat with 2023 changes
                 else:
                     # entries.append((i*rate, pan[0], pan[1], 0, "", "",""))    
-                    entries.append((i*rate, 0, 0, 0, 0, 0,0))   
+                    entries.append((i*rate, panTemp, panTemp, panTemp, panTemp, panTemp, panTemp))    
                     # need more trial to determine to use i or (i-1) or (i-2) so time_elapsed will start at 0 in SQLite
                     # Check: what it depends on if it detects a pan or when i become 1 before the below "i += 1"
-                
+            
+            # 2023 Stove off case (if (backgroundTemp - panTemp > - 10))
+            else:
+                print("Frame: " + str(i) + " - Cannot find heat, Pan or Food - Nothing on Stove and current detected PanTemp is " + str(panTemp)) 
+                entries.append((i*rate, panTemp, panTemp, panTemp, panTemp, panTemp, panTemp))   
+        
+        # 2023 Can't find Pan  
+        else:
+            entries.append((i*rate, missingPanTemp, missingPanTemp, missingPanTemp, missingPanTemp, missingPanTemp, missingPanTemp))   
         i += 1
         if i >= 20:
             break
