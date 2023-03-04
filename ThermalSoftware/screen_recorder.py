@@ -11,10 +11,12 @@ seekOFixWindow.maximize()
 seekOFixWindow.activate()
 
 # These depend on host resolution
-X_OFFSET = 17
-Y_OFFSET = 64
-VIDEO_WIDTH = 620
-VIDEO_HEIGHT = 470
+# 2023: Changes below due to the difference between computer screens dimensions
+X_OFFSET = 18 #2023: Might need changes (2022: 17)
+Y_OFFSET = 62 #2023: Might need changes (2022: 64)
+
+VIDEO_WIDTH = 618 #2023: Might need changes (2022: 620)
+VIDEO_HEIGHT = 432 #2023: Might need changes (2022: 470)
 
 # Monitor for mss (screenshots)
 monitor = {'left': X_OFFSET, 'top': Y_OFFSET, 'width': VIDEO_WIDTH, 'height': VIDEO_HEIGHT}
@@ -41,7 +43,7 @@ out = cv2.VideoWriter(videoPath, codec, fps, resolution)
 # Create empty window
 cv2.namedWindow('Live', cv2.WINDOW_NORMAL)
 
-# Resize this window
+# Resize this window 
 cv2.resizeWindow('Live', 480, 270)
 
 # Count number of frames that passed since previous write to video

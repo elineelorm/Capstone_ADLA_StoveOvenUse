@@ -295,7 +295,8 @@ def thermalImagingProcess(frames, rate):
             
             # 2023 Stove off case (if (backgroundTemp - panTemp > - 10))
             else:
-                print("Frame: " + str(i) + " - Cannot find heat, Pan or Food - Nothing on Stove and current detected PanTemp is " + str(panTemp)) 
+                print("Frame: " + str(i) + " - Cannot find temp difference between background and pan" + 
+                 " current detected PanTemp is " + str(panTemp)) 
                 entries.append((i*rate, panTemp, panTemp, panTemp, panTemp, panTemp, panTemp))   
         
         # 2023 Can't find Pan  
