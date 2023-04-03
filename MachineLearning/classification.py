@@ -1,6 +1,8 @@
 """
     classification.py
     This is the classification model of the system
+    
+    Author: Eline-Elorm Nuviadenu
 """
 
 from database import Database
