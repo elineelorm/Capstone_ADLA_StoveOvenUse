@@ -1,3 +1,8 @@
+"""
+    Main method for running all code 
+    
+    Author: Eline-Elorm Nuviadenu
+"""
 from classification import Classification
 
 def main():
