@@ -5,6 +5,14 @@ import time
 from mss import mss #mss is a python library for screenshots
 from PIL import Image
 
+"""
+    screen_recorder.py
+    This is a application to record thermal videos on top of the SeekOFix application.
+    
+    Author: Group from 2021/2022 (Jonathan Mack)
+    Edited by Hiu Sum Jaime Yue
+"""
+
 # Maximize and bring SeekOFix window to the foreground
 seekOFixWindow = gw.getWindowsWithTitle('SeekOFix')[0]
 seekOFixWindow.maximize()

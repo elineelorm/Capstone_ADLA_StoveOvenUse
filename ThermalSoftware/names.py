@@ -1,5 +1,9 @@
-#This is a file for repetitive printing as a helper file for Models/testdata.py
-
+"""
+    names.py
+    This is a file for repetitive printing as a helper file for Models/testdata.py
+    
+    Author: Hiu Sum Jaime Yue
+"""
 x = range(1, 21)
 
 for n in x:

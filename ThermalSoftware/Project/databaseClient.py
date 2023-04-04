@@ -1,7 +1,16 @@
 import os
 from tkinter import Tk, Button, Frame, Label, StringVar, filedialog, DISABLED, NORMAL
-from database2023 import add_video_from_filename, get_frame_data_array #using new database code
+from database2023 import add_video_from_filename #using new database code
 from threading import Thread
+
+"""
+    databaseClient.py
+    This is a application to select file to start image processing 
+    
+    Author: Group from 2021/2022 (Jonathan Mack)
+    Edited by Hiu Sum Jaime Yue
+
+"""
 
 class DatabaseClient(Frame):
     ''' This class launches a GUI that allows users to easily add one or multiple thermal videos
@@ -124,22 +133,15 @@ class TaskAddVideos(Thread):
             add_video_from_filename(filename)
         self.caller.update()
             
-def with_ffprobe(filename):
-    result = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
-                             "format=duration", "-of",
-                             "default=noprint_wrappers=1:nokey=1", filename],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT)
-    return float(result.stdout)
-
-
-    
+# def with_ffprobe(filename):
+#     result = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
+#                              "format=duration", "-of",
+#                              "default=noprint_wrappers=1:nokey=1", filename],
+#         stdout=subprocess.PIPE,
+#         stderr=subprocess.STDOUT)
+#     return float(result.stdout)
 
 def main():
-    #new before root
-    # frameData = get_frame_data_array('Three_Mushrooms_Analysis_Table_1')
-    # result = classifyStaticVideo(frameData) new commented out
-    # print(frameData)
     root = Tk()
     root.title('Database Client')
     root.geometry('500x200')
@@ -147,5 +149,4 @@ def main():
     client.mainloop()
 
 if __name__ == '__main__':
-    # getFrameRate()
     main()
