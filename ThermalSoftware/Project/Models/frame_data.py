@@ -5,6 +5,7 @@ class FrameData:
     ''' An instance of FrameData represents a frame that is sampled from a thermal video.
     FrameData records are stored in an analysis table pertaining to the specific thermal video file.
 
+    Edited
     //Change this!
     Each instance of FrameData contains the following fields:
         timeElapsed (INTEGER) - The elapsed time (in seconds) since the beginning of the time the frame was sampled (primary key)

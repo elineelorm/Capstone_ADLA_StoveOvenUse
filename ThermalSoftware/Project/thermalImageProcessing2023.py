@@ -8,6 +8,14 @@ import time
 import math
 from statistics import mean
 
+"""
+    thermalImageProcessing2023.py
+    This file includes all the functions that the application use to extract features from the video frame
+    
+    Author: Group from 2021/2022 (Jonathan Mack)
+    Edited by Hiu Sum Jaime Yue and Eline Elorm Nuviadenu
+
+"""
 tempRange = np.load('Project/brightness2Temperature.npy')
 
 """
