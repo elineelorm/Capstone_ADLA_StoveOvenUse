@@ -1,5 +1,4 @@
 #from msilib.schema import Class
-from classification import Classification
 
 class TestDataWithId:
     ''' 

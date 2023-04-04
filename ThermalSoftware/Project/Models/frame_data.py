@@ -1,5 +1,5 @@
 #from msilib.schema import Class
-from classification import Classification
+# from classification import Classification
 
 class FrameData:
     ''' An instance of FrameData represents a frame that is sampled from a thermal video.

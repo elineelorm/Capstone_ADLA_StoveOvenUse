@@ -1,6 +1,4 @@
 #from msilib.schema import Class
-from classification import Classification
-
 class TestData:
     ''' 
     //Change this!

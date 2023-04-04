@@ -7,8 +7,7 @@ from Models.frame_data import FrameData
 from Models.testdata import TestData
 from Models.testdataWithId import TestDataWithId
 from thermalImageProcessing2023 import processVideo
-from classifier2023 import classifyStaticVideo
-from classificationAnalyzer import classifyTable
+# from classifier2023 import classifyStaticVideo 
 from checkDuration import getFrameRate
 
 DATABASE = 'Project/cooking_thermal_2023.db' #changed to new database code in 2023
@@ -785,7 +784,7 @@ def add_video_from_filename(filename):
     frameData = processVideo(filename, rate)
 
     # 2021/2022 method Classify frame data at each elapsed time interval
-    #Not used in 2022/23
+    # Not used in 2022/23
     # frameByFrameClassifications = classifyStaticVideo(frameData)
 
     # Add frame data to the analysis table
@@ -814,9 +813,8 @@ def add_video_from_filename(filename):
 
     insert_many_frame_data(frameDataObjs, analysisTableName)
 
-    # Add a record to the videos master table (Hide to test 2023)
-    # overallClassification = classifyTable(analysisTableName)
-    overallClassification = "Trial 2023"#set to "Trial 2023" as we don't want to hard code the classification
+    # Add a record to the videos master table 
+    overallClassification = "Trial 2023"#set to "Trial 2023" as not hard coding the classification
     video = Video(type, subtype, filename, analysisTableName, overallClassification, stoveId)
     insert_video(video)
 
@@ -832,6 +830,6 @@ def add_video_from_filename(filename):
 # Example
 if __name__ == '__main__':
     frameData = get_all_frame_data('Three_Mushrooms_Analysis_Table_1')
-    result = classifyStaticVideo(frameData)
+    # result = classifyStaticVideo(frameData)
     print(frameData)
     getFrameRate()
