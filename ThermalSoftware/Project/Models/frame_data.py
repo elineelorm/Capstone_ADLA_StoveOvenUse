@@ -1,20 +1,24 @@
-#from msilib.schema import Class
-# from classification import Classification
+"""
+    frame_data.py
+    This file includes the frame_data model.
+    
+    Author: Group from 2021/2022 (Jonathan Mack)
+    Edited by Hiu Sum Jaime Yue and Eline Elorm Nuviadenu
+
+"""
 
 class FrameData:
     ''' An instance of FrameData represents a frame that is sampled from a thermal video.
     FrameData records are stored in an analysis table pertaining to the specific thermal video file.
 
-    Edited
-    //Change this!
     Each instance of FrameData contains the following fields:
         timeElapsed (INTEGER) - The elapsed time (in seconds) since the beginning of the time the frame was sampled (primary key)
-        panTemp (REAL) - The average temperature of the pan (in Celsius)
-        panArea (INTEGER) - The area of the pan (in pixels)
-        numFood (INTEGER) - The number of food elements
-        foodTemp (TEXT) - The string representation of an array containing temperatures (in Celsius) of each identified food
-        foodArea (TEXT) - The string representation of an array containing the areas (in pixels) of each identified food
-        classification (TEXT) - The classification of the frame specified by the classifier
+        avg_pan_temp (REAL) - The average temperature of the pan (in Celsius)
+        highest_pan_temp (REAL) - The highest temperature of the pan (in Celsius)
+        lowest_pan_temp (REAL) - The lowest temperature of the pan (in Celsius)
+        avg_food_temp(REAL) - The average temperature of the food (in Celsius)
+        highest_food_temp (REAL) - The highest temperature of the food (in Celsius)
+        lowest_food_temp (REAL) - The lowest temperature of the food (in Celsius)
     '''
     def __init__(self, time_elapsed, avg_pan_temp, highest_pan_temp ,lowest_pan_temp, avg_food_temp, highest_food_temp, lowest_food_temp):
         self._timeElapsed = time_elapsed

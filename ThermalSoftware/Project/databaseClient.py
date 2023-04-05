@@ -132,14 +132,6 @@ class TaskAddVideos(Thread):
         for filename in self.filenames:
             add_video_from_filename(filename)
         self.caller.update()
-            
-# def with_ffprobe(filename):
-#     result = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
-#                              "format=duration", "-of",
-#                              "default=noprint_wrappers=1:nokey=1", filename],
-#         stdout=subprocess.PIPE,
-#         stderr=subprocess.STDOUT)
-#     return float(result.stdout)
 
 def main():
     root = Tk()

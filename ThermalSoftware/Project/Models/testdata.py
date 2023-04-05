@@ -1,19 +1,29 @@
-#from msilib.schema import Class
+"""
+    testdata.py
+    This file includes the testdata model.
+    
+    Author: Hiu Sum Jaime Yue
+
+"""
+
 class TestData:
     ''' 
-    //Change this!
-    An instance of TestData represents a frame that is sampled from a thermal video created in 2023.
-    FrameData records are stored in an analysis table pertaining to the specific thermal video file.
+    An instance of TestData represents the dataset that is sampled from a thermal video created in 2023.
+    TestData records are stored in an analysis table pertaining to the specific thermal video file.
 
-    
-    Each instance of FrameData contains the following fields:
-        timeElapsed (INTEGER) - The elapsed time (in seconds) since the beginning of the time the frame was sampled (primary key)
-        panTemp (REAL) - The average temperature of the pan (in Celsius)
-        panArea (INTEGER) - The area of the pan (in pixels)
-        numFood (INTEGER) - The number of food elements
-        foodTemp (TEXT) - The string representation of an array containing temperatures (in Celsius) of each identified food
-        foodArea (TEXT) - The string representation of an array containing the areas (in pixels) of each identified food
-        classification (TEXT) - The classification of the frame specified by the classifier
+    Each instance of TestData contains the following fields:
+        state (INTEGER) - The state(Off->0/On->1) of the stove in the thermal video 
+        type (INTEGER) -  The type(Boiling->0/Frying->1) of the egg in the thermal video 
+        safety (INTEGER) -  The safety(Safe->0/Unsafe->1) of the stove in the thermal video 
+    Let x be 1 to 20. Repeat all the 7 instances below for each x.  E.g. time_elapsed_1,lowest_food_temp_20
+        time_elapsed_x (INTEGER) - The elapsed time (in seconds) since the beginning of the time the frame was sampled
+        avg_pan_temp_x (REAL) - The average temperature of the pan (in Celsius)
+        highest_pan_temp_x  (REAL) - The highest temperature of the pan (in Celsius)
+        lowest_pan_temp_x (REAL) - The lowest temperature of the pan (in Celsius)
+        avg_food_temp_x (REAL) - The average temperature of the food (in Celsius)
+        highest_food_temp_x (REAL) - The highest temperature of the food (in Celsius)
+        lowest_food_temp_x (REAL) - The lowest temperature of the food (in Celsius)
+
     '''
     def __init__(self, state, type, safety, time_elapsed_1, avg_pan_temp_1, highest_pan_temp_1, lowest_pan_temp_1, avg_food_temp_1, highest_food_temp_1, lowest_food_temp_1, 
         time_elapsed_2, avg_pan_temp_2, highest_pan_temp_2, lowest_pan_temp_2, avg_food_temp_2, highest_food_temp_2, lowest_food_temp_2, 

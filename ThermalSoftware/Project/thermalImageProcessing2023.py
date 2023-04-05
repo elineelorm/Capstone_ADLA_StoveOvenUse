@@ -10,7 +10,7 @@ from statistics import mean
 
 """
     thermalImageProcessing2023.py
-    This file includes all the functions that the application use to extract features from the video frame
+    This file includes all the functions that the application uses to extract features from the video frame
     
     Author: Group from 2021/2022 (Jonathan Mack)
     Edited by Hiu Sum Jaime Yue and Eline Elorm Nuviadenu
@@ -18,8 +18,6 @@ from statistics import mean
 """
 tempRange = np.load('Project/brightness2Temperature.npy')
 
-"""
-"""
 def find_nearest(value):
     array = tempRange[:, 1]
     idx = (np.abs(array - value)).argmin()
@@ -110,7 +108,7 @@ def getAverageImageTemperature(image):
     return sum / (height*width)
 
 """
-2023 comment: the function returns the area of where the pan is,
+This function returns the area of where the pan is,
               in An array of coordinates (x, y)
 """
 def contourMask(image):
@@ -124,7 +122,7 @@ def contourMask(image):
     return coordinates
 
 """
-2023 comment: the function was used in thermalImagingProcess, trying to find the outline of the pan in the image
+This function is trying to find the outline of the pan in the image
 """
 def findPan(frame, image):
     original = np.copy(frame)
@@ -181,8 +179,8 @@ def getPercentageOfMode(image):
     return (np.amax(counts)/sum)
 
 """
-2023 comment: the function returns the average of temperature using pnts,
-              in float, used in thermalImagingProcess for avgPanTemp (might be including the food temp)
+This function returns the average of temperature using pnts,
+              in float, used for avgPanTemp
 """
 def getAverageTemperature_pnts(pnts, image):
     sum = 0
@@ -205,9 +203,6 @@ def thermalImagingProcess(frames, rate):
         #foreground is just the original frame to grey
         foreground = cv2.cvtColor(frame.copy(), cv2.COLOR_BGR2GRAY)
 
-        # 2021/2022 code but they did not end up using it
-        # forground = resizeImage(frame, 50)
-
         #Convert to grayscale and blur, image to grey to compare easier 
         #than actual thermal screenshot's colour
         print("Frame: "+str(i)+" - Blurring Image. ElapsedTime: " + str(time.time() - startTime))
@@ -224,14 +219,12 @@ def thermalImagingProcess(frames, rate):
         ellipseMask = cv2.bitwise_and(foreground, ellipse)
         print("Frame: "+str(i)+" - Column Stack Image. ElapsedTime: " + str(time.time() - startTime))
         
-        # 2023 get Temp for missing pan (Avg temp of frame)
-        # Need to figure out how to get all framePnts of the frame
-        # panTemp = getAverageTemperature_pnts(framePnts, foreground)
+        # 2023 get Temp for missing pan (Set Avg temp of frame)
         missingPanTemp = 0
         
         #Now take the pan shape and analyze 
         if not len(np.column_stack(np.where(ellipse != 0))) == 0:
-            #showImage(cv2.cvtColor(ellipseMask, cv2.COLOR_BGR2RGB), "Ellipse")
+
             print("Frame: "+str(i)+" - ContourMask. ElapsedTime: " + str(time.time() - startTime))
             pnts = list(set(contourMask(ellipse)))
             print("Frame: "+str(i)+" - Get PanTemp Image. ElapsedTime: " + str(time.time() - startTime))
@@ -243,8 +236,7 @@ def thermalImagingProcess(frames, rate):
                 thresh_insidePan = np.where(ellipse == 0, 0, thresh_insidePan)
                 open_morphPan = open_Morph(thresh_insidePan)
                 insidePan, contours = getContoursInsidePan(open_morphPan, foreground)
-                #showImage(insidePan, "Contours detected inside pan at " + str(i*10) + " seconds", True)
-                #getTemperatureHist_pnts(ellipseMask, pnts)
+
                 print("Frame: "+str(i)+" - Get Contour Heat. ElapsedTime: " + str(time.time() - startTime))
                 pts, temperatureList = getContourHeat(contours, thresh_insidePan, foreground)
                 print("Frame: "+str(i)+" - After Contour Heat. ElapsedTime: " + str(time.time() - startTime))
@@ -256,24 +248,15 @@ def thermalImagingProcess(frames, rate):
                             except ValueError:
                                 pass
 
-
-                    # temperatureList.sort(key=len, reverse=True)
-                    # if len(temperatureList) > 1:
-                        
-                    #     for e in temperatureList[1]:
-                    #         if e in temperatureList[0]:
-                    #             temperatureList[0].remove(e)
                 print("Frame: "+str(i)+" - After Temperature List. ElapsedTime: " + str(time.time() - startTime))    
                 pts = list(filter(lambda x: x[1] > 50, pts)) 
-                
-                # pan = max(pts,key=lambda item:item[1])
 
-                #new fix for ValueError:max() arg is an empty sequence when pan have nothing
+                # 2023: new fix for ValueError:max() arg is an empty sequence when pan have nothing
                 try:
                     pan = max(pts,key=lambda item:item[1])
                 except ValueError:
                     pan = [0, 0]
-                #fix end
+                # fix end
 
                 if(len(pts) > 1):
                     food = pts.copy()
@@ -285,21 +268,12 @@ def thermalImagingProcess(frames, rate):
                     foodTemp = [x[0] for x in food]
                     foodSize = [x[1] for x in food]
 
-                    #Need new changes to not do i*10 but i * rate of the 20 equally spaced frames
-                #     entries.append((i*10, pan[0], pan[1], len(food), str(foodTemp),str(foodSize)))
-                # else:
-                #     entries.append((i*10, pan[0], pan[1], 0, "", "")) 
-                #Testing set all to 0 other than time
-                    # entries.append((i*rate, pan[0], pan[1], len(food), str(foodTemp),str(foodSize)))
-    
+                    # 2023: i * rate of the 20 equally spaced frames
                     entries.append((i*rate, pan[0], str(max(max(temperatureList))), str(min(min(temperatureList))), str(mean(foodTemp)), str(max(foodTemp)), str(min(foodTemp))))
                 
-                #Case Cannot find food but detected heat with 2023 changes
-                else:
-                    # entries.append((i*rate, pan[0], pan[1], 0, "", "",""))    
+                # 2023 Case Cannot find food but detected heat with 2023 changes
+                else:   
                     entries.append((i*rate, panTemp, panTemp, panTemp, panTemp, panTemp, panTemp))    
-                    # need more trial to determine to use i or (i-1) or (i-2) so time_elapsed will start at 0 in SQLite
-                    # Check: what it depends on if it detects a pan or when i become 1 before the below "i += 1"
             
             # 2023 Stove off case (if (backgroundTemp - panTemp > - 10))
             else:

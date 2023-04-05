@@ -7,10 +7,18 @@ from Models.frame_data import FrameData
 from Models.testdata import TestData
 from Models.testdataWithId import TestDataWithId
 from thermalImageProcessing2023 import processVideo
-# from classifier2023 import classifyStaticVideo 
 from checkDuration import getFrameRate
 
-DATABASE = 'Project/cooking_thermal_2023.db' #changed to new database code in 2023
+"""
+    database2023.py
+    This is a application to call and process thermal videos and save to database using the correct models.
+    
+    Author: Group from 2021/2022 (Jonathan Mack)
+    Edited by Hiu Sum Jaime Yue
+
+"""
+
+DATABASE = 'Project/cooking_thermal_2023.db' #New database in 2023
 
 def generate_database():
     ''' Create a database based on the Test Data folder.
@@ -205,7 +213,7 @@ def get_videos_by_stoveId(stoveId):
     return videos
 
 
-
+# 2023: Updated variable names in SQL command
 def create_analysis_table(name):
     ''' Return the modified name of the analysis table created for a given name.
     Appends a unique, incrementing index to the end of the analysis table name.
@@ -240,7 +248,7 @@ def create_analysis_table(name):
                 break
             # Increment the analysis table index until the table name is unique
             tableIndex += 1
-        # Must use string formatting since sqlite3 doesn't support variable table names
+        # Must use string formatting since sqlite3 doesn't support variable table names(updated names)
         c.execute('''CREATE TABLE {} (
                         time_elapsed INTEGER PRIMARY KEY,
                         avg_pan_temp REAL,
@@ -330,7 +338,7 @@ def get_all_frame_data(analysisTableName):
     conn.close()
     return frameData
 
-#2022 new method for getting thermal data in an array
+# 2023: Method for getting thermal data in an array
 def get_frame_data_array(analysisTableName):
     ''' Get all FrameData records from an analysis table.
     
@@ -348,7 +356,7 @@ def get_frame_data_array(analysisTableName):
     conn.close()
     return frameData
 
-#2023 new method for saving frame data to a new table to be transfer to csv
+# 2023: Method that create a new table for saving frame data to be transferred to csv using testdata model
 def create_testdata_table():
     ''' Create the master testdata table.
     The master testdata table stores high-level information about thermal videos.
@@ -515,9 +523,9 @@ def create_testdata_table():
     conn.close()
 
 
-#2023 new method for saving frame data to a new table to be transfer to csv
+# 2023: Method that saving frame data in testdata table to be transferred to csv using testdata model
 def insert_testdata(testdata):
-    ''' Insert a testdata into the master testdata table.
+    ''' Insert a testdata into the testdata table.
     
     Args:
         testdata(testdata): The testdata to insert
@@ -532,7 +540,7 @@ def insert_testdata(testdata):
     with conn:
         c = conn.cursor()
         try:
-            # we have 143 question marks (?) 
+            # we have 143 values in the testdata model
             c.execute('INSERT INTO testdata VALUES (?,?,?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?)',
              testdata.get_as_record())
             print('Successfully inserted testdata')
@@ -544,9 +552,9 @@ def insert_testdata(testdata):
             c.close()
     conn.close()
 
-#2023 new method for saving frame data to a new table with Id to be transfer to csv
+# 2023: Method that create a new table for saving frame data to be transferred to csv using testdataWithId model
 def create_testdataWithId_table():
-    ''' Create the master testdataWithId table.
+    ''' Create the master testdataWithId table. 
     The master testdataWithId table stores high-level information about thermal videos.
     This inlcudes everything that goes into the csv for machine learning purpose.
     
@@ -713,7 +721,8 @@ def create_testdataWithId_table():
     conn.close()
 
 
-#2023 new method for saving frame data to a new table to be transfer to csv
+# 2023: Method that saving testdataWithId in testdataWithId table for to be transferred to csv 
+# using testdataWithId model
 def insert_testdataWithId(testdataWithId):
     ''' Insert a testdataWithId into the master testdataWithId table.
     
@@ -730,7 +739,7 @@ def insert_testdataWithId(testdataWithId):
     with conn:
         c = conn.cursor()
         try:
-            # we have 143 question marks (?) 
+            # we have 145 values
             c.execute('INSERT INTO testdataWithId VALUES (null,?,?,?,?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?)',
              testdataWithId.get_as_record())
             print('Successfully inserted testdataWithId')
@@ -742,6 +751,7 @@ def insert_testdataWithId(testdataWithId):
             c.close()
     conn.close()
 
+# 2023: Edited Method to fit with the testdataWithId model
 def add_video_from_filename(filename):
     ''' Analyzes a video given its filename and stores its analytical data
     (FrameData records) into the database.
@@ -783,10 +793,6 @@ def add_video_from_filename(filename):
     # Get frame data from video(new change in 2023)=> sampleRate from 10 to 40 to (Dynamic)60 to 40 to attempt at equally spaced 20 frames
     frameData = processVideo(filename, rate)
 
-    # 2021/2022 method Classify frame data at each elapsed time interval
-    # Not used in 2022/23
-    # frameByFrameClassifications = classifyStaticVideo(frameData)
-
     # Add frame data to the analysis table
     frameDataObjs = []
     #Add all frame data in an array for testdata table
@@ -814,7 +820,8 @@ def add_video_from_filename(filename):
     insert_many_frame_data(frameDataObjs, analysisTableName)
 
     # Add a record to the videos master table 
-    overallClassification = "Trial 2023"#set to "Trial 2023" as not hard coding the classification
+    # Set to "Trial 2023" as not hard coding the classification,manual data labelling after image processing
+    overallClassification = "Trial 2023"
     video = Video(type, subtype, filename, analysisTableName, overallClassification, stoveId)
     insert_video(video)
 
@@ -830,6 +837,5 @@ def add_video_from_filename(filename):
 # Example
 if __name__ == '__main__':
     frameData = get_all_frame_data('Three_Mushrooms_Analysis_Table_1')
-    # result = classifyStaticVideo(frameData)
     print(frameData)
     getFrameRate()
