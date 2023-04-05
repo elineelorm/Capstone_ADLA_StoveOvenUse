@@ -1,3 +1,11 @@
+"""
+    video.py
+    This file includes the video model.
+    
+    Author: Group from 2021/2022 (Jonathan Mack)
+
+"""
+
 class Video:
     ''' An instance of Video represents a thermal video in its entirety.
     Video records are stored in the videos master table.

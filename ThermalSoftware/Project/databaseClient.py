@@ -1,7 +1,16 @@
 import os
 from tkinter import Tk, Button, Frame, Label, StringVar, filedialog, DISABLED, NORMAL
-from database import add_video_from_filename
+from database2023 import add_video_from_filename #using new database code
 from threading import Thread
+
+"""
+    databaseClient.py
+    This is a application to select file to start image processing 
+    
+    Author: Group from 2021/2022 (Jonathan Mack)
+    Edited by Hiu Sum Jaime Yue
+
+"""
 
 class DatabaseClient(Frame):
     ''' This class launches a GUI that allows users to easily add one or multiple thermal videos
@@ -58,6 +67,7 @@ class DatabaseClient(Frame):
         Returns:
             None
         '''
+
         self.enableGUI()
 
     def enableGUI(self):
@@ -122,8 +132,6 @@ class TaskAddVideos(Thread):
         for filename in self.filenames:
             add_video_from_filename(filename)
         self.caller.update()
-            
-
 
 def main():
     root = Tk()
