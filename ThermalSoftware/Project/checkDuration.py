@@ -26,5 +26,5 @@ def getFrameRate(filename):
 
 # Example
 if __name__ == '__main__':
-    getFrameRate()
+    getFrameRate("C:/Users/jaime/Desktop/SYSC4907A/Code/Capstone_ADLA_StoveOvenUse/ThermalSoftware/Test Data/2023.03.28-15.34.35 [Fry egg].mp4")
 
