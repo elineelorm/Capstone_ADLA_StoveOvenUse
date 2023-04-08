@@ -4,10 +4,22 @@ from Project.Models.testdataWithId import TestDataWithId
 from Project.thermalImageProcessing2023 import processVideo
 from Project.checkDuration import getFrameRate
 
+"""
+    testModels.py
+    This file includes all the unit testing for the TestData model and TestDataWithId model.
+    
+    Author: Hiu Sum Jaime Yue
+
+"""
+
 # Can not directly test the fuction that used in database2023.py as it is linked to database
 # Here is an edited version of add_video_from_filename that return an array of object that we want 
 def add_video_from_filename_v2(filename):
-    ''' Analyzes a video given its filename and stores its analytical data
+    ''' 
+    Author: Group from 2021/2022 (Jonathan Mack)
+    Edited by Hiu Sum Jaime Yue
+
+    Analyzes a video given its filename and stores its analytical data
     (FrameData records) into the database.
 
     The provided filename must contain the 'Test Data' folder as part of its path.
@@ -64,7 +76,10 @@ def add_video_from_filename_v2(filename):
 
     return result
 
-class TestSum(unittest.TestCase):
+class TestModels(unittest.TestCase):
+    """
+    This is a class to test all new models.
+    """
     # setUpClass method will only run once for all test functions
     @classmethod
     def setUpClass(cls):
@@ -79,22 +94,22 @@ class TestSum(unittest.TestCase):
         self.assertEqual(TestDataArrLen, 143)
     def test_arr_for_TestDataWithIdObj_len(self):
         """
-        Test that check the number of elements in test arr before put into testDataObj
+        Test that check the number of elements in test arr before put into testDataWithIdObj
         """
         TestDataWithIdArrLen = len(self.TestDataWithIdArr)
         self.assertEqual(TestDataWithIdArrLen, 144)
-    def test_TestDataObj_numOfAttributes(self):
+    def test_TestDataObj_numOfVar(self):
         """
-        Test that check the number of attributes in TestDataObj
+        Test that check the number of variables in TestDataObj
         """
         TestDataObj = TestData(*self.TestDataArr)
 
         resultLen = len(vars(TestDataObj))
         self.assertEqual(resultLen, 143)
 
-    def test_TestDataWithIdObj_numOfAttributes(self):
+    def test_TestDataWithIdObj_numOfVar(self):
         """
-        Test that check the number of attributes in TestDataWithIdObj
+        Test that check the number of variables in TestDataWithIdObj
         """
         TestDataWithIdObj = TestDataWithId(*self.TestDataWithIdArr)
         resultLen = len(vars(TestDataWithIdObj))
