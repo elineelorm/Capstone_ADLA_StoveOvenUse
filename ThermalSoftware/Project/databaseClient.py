@@ -8,8 +8,6 @@ from threading import Thread
     This is a application to select file to start image processing 
     
     Author: Group from 2021/2022 (Jonathan Mack)
-    Edited by Hiu Sum Jaime Yue
-
 """
 
 class DatabaseClient(Frame):
